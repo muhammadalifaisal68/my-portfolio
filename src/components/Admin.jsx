@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import { Studio } from 'sanity'
-import config from '../../sanity.config'
 
 export default function Admin() {
   const [loggedIn, setLoggedIn] = useState(false)
@@ -18,11 +16,8 @@ export default function Admin() {
   }
 
   if (loggedIn) {
-    return (
-      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
-        <Studio config={config} />
-      </div>
-    )
+    window.location.href = 'https://alifaisal-portfolio.sanity.studio'
+    return null
   }
 
   return (

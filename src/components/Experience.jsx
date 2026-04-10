@@ -1,35 +1,35 @@
+import { useEffect, useState } from 'react'
+import { client } from '../sanityClient'
+
 export default function Experience() {
+  const [experiences, setExperiences] = useState([])
+
+  useEffect(() => {
+    client.fetch(`*[_type == "experience"]{
+      title,
+      company,
+      duration,
+      description
+    }`).then(data => setExperiences(data))
+  }, [])
+
   return (
     <section id="experience" className="py-20 px-6 max-w-4xl mx-auto scroll-mt-20">
       <h2 className="text-3xl font-bold text-center mb-10">Experience & Education</h2>
-      <div className="space-y-6">
-
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
-          <h3 className="text-lg font-semibold text-blue-400">Software Engineering Intern</h3>
-          <p className="text-gray-300">Tareenity</p>
-          <p className="text-gray-500 text-sm">Internship — Recently Completed</p>
-          <p className="text-gray-400 text-sm mt-2">
-            Gained hands-on industry experience in software engineering and data-related tasks
-            under experienced mentors.
-          </p>
+      {experiences.length === 0 ? (
+        <p className="text-center text-gray-400">No experience yet. Add them in Sanity CMS!</p>
+      ) : (
+        <div className="space-y-6">
+          {experiences.map(exp => (
+            <div key={exp.title} className="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition">
+              <h3 className="text-lg font-semibold text-blue-400">{exp.title}</h3>
+              <p className="text-gray-300">{exp.company}</p>
+              <p className="text-gray-500 text-sm">{exp.duration}</p>
+              <p className="text-gray-400 text-sm mt-2">{exp.description}</p>
+            </div>
+          ))}
         </div>
-
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
-          <h3 className="text-lg font-semibold text-blue-400">Diploma in Information Technology (DIT)</h3>
-          <p className="text-gray-300">Brains Institute, Peshawar</p>
-        </div>
-
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
-          <h3 className="text-lg font-semibold text-blue-400">FSC</h3>
-          <p className="text-gray-300">Punjab Group of Colleges</p>
-        </div>
-
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
-          <h3 className="text-lg font-semibold text-blue-400">Matric</h3>
-          <p className="text-gray-300">St Francis High School, Hayatabad</p>
-        </div>
-
-      </div>
+      )}
     </section>
   )
 }

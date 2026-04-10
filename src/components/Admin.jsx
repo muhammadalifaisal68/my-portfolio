@@ -14,7 +14,7 @@ export default function Admin() {
   const [skills, setSkills] = useState(() => JSON.parse(localStorage.getItem('skills') || '[]'))
   const [experience, setExperience] = useState(() => JSON.parse(localStorage.getItem('experience') || '[]'))
   const [contacts, setContacts] = useState(() => JSON.parse(localStorage.getItem('contacts') || '[]'))
-  const [social, setSocial] = useState(() => JSON.parse(localStorage.getItem('social') || JSON.stringify({ github: '', linkedin: '', twitter: '', instagram: '' })))
+  const [social, setSocial] = useState(() => JSON.parse(localStorage.getItem('social') || JSON.stringify({ linkedin: '' })))
 
   const [newProject, setNewProject] = useState({ title: '', description: '', technologies: '' })
   const [newSkill, setNewSkill] = useState('')
@@ -59,29 +59,29 @@ export default function Admin() {
 
   if (!loggedIn) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center px-6">
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 w-full max-w-md">
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4">🔐</div>
-            <h1 className="text-2xl font-bold text-white">CMS Admin</h1>
-            <p className="text-gray-400 text-sm mt-1">Portfolio Management System</p>
+      <div style={{ minHeight: '100vh', background: '#0a0a0a', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+        <div style={{ background: '#111111', border: '1px solid #222', borderRadius: '20px', padding: '40px', width: '100%', maxWidth: '420px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+            <div style={{ width: '64px', height: '64px', background: '#1a1a1a', border: '1px solid #333', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', margin: '0 auto 16px' }}>🔐</div>
+            <h1 style={{ color: '#fff', fontSize: '24px', fontWeight: '700', margin: '0 0 4px' }}>CMS Admin</h1>
+            <p style={{ color: '#666', fontSize: '14px', margin: 0 }}>Portfolio Management System</p>
           </div>
-          {error && <p className="text-red-400 text-sm text-center mb-4 bg-red-400/10 py-2 rounded-xl">{error}</p>}
-          <div className="space-y-4">
+          {error && <p style={{ color: '#ff4444', fontSize: '14px', textAlign: 'center', background: '#1a0000', padding: '10px', borderRadius: '10px', marginBottom: '16px' }}>{error}</p>}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div>
-              <label className="text-gray-400 text-sm mb-1 block">Username</label>
+              <label style={{ color: '#888', fontSize: '13px', display: 'block', marginBottom: '6px' }}>Username</label>
               <input type="text" value={username} onChange={e => setUsername(e.target.value)}
-                className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                style={{ width: '100%', background: '#1a1a1a', border: '1px solid #333', borderRadius: '12px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
                 placeholder="Enter username" />
             </div>
             <div>
-              <label className="text-gray-400 text-sm mb-1 block">Password</label>
+              <label style={{ color: '#888', fontSize: '13px', display: 'block', marginBottom: '6px' }}>Password</label>
               <input type="password" value={password} onChange={e => setPassword(e.target.value)}
-                className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                style={{ width: '100%', background: '#1a1a1a', border: '1px solid #333', borderRadius: '12px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
                 placeholder="Enter password" />
             </div>
             <button onClick={handleLogin}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-medium transition">
+              style={{ width: '100%', background: '#fff', color: '#000', border: 'none', borderRadius: '12px', padding: '14px', fontSize: '15px', fontWeight: '600', cursor: 'pointer' }}>
               Login to Dashboard
             </button>
           </div>
@@ -91,107 +91,93 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div style={{ minHeight: '100vh', background: '#0a0a0a', display: 'flex' }}>
       {/* Sidebar */}
-      <div className="w-64 bg-blue-700 text-white flex flex-col">
-        <div className="p-6 border-b border-blue-600">
-          <h1 className="text-xl font-bold">CMS Admin</h1>
-          <p className="text-blue-200 text-xs mt-1">Portfolio Management</p>
+      <div style={{ width: '240px', background: '#111', borderRight: '1px solid #222', display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh' }}>
+        <div style={{ padding: '24px 20px', borderBottom: '1px solid #222' }}>
+          <h1 style={{ color: '#fff', fontSize: '18px', fontWeight: '700', margin: '0 0 4px' }}>CMS Admin</h1>
+          <p style={{ color: '#555', fontSize: '12px', margin: 0 }}>Portfolio Management</p>
         </div>
-        <nav className="flex-1 p-4 space-y-1">
+        <nav style={{ flex: 1, padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
           {tabs.map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-              className={`w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 text-sm transition ${activeTab === tab.id ? 'bg-white text-blue-700 font-medium' : 'text-blue-100 hover:bg-blue-600'}`}>
+              style={{ width: '100%', textAlign: 'left', padding: '12px 16px', borderRadius: '10px', border: 'none', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', cursor: 'pointer', background: activeTab === tab.id ? '#fff' : 'transparent', color: activeTab === tab.id ? '#000' : '#888', fontWeight: activeTab === tab.id ? '600' : '400', transition: 'all 0.2s' }}>
               <span>{tab.icon}</span>
               {tab.label}
             </button>
           ))}
         </nav>
-        <div className="p-4 border-t border-blue-600">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-sm font-bold">A</div>
+        <div style={{ padding: '16px 20px', borderTop: '1px solid #222' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+            <div style={{ width: '36px', height: '36px', background: '#222', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '14px', fontWeight: '700' }}>A</div>
             <div>
-              <p className="text-sm font-medium">Admin</p>
-              <p className="text-blue-200 text-xs">Administrator</p>
+              <p style={{ color: '#fff', fontSize: '14px', fontWeight: '500', margin: 0 }}>Admin</p>
+              <p style={{ color: '#555', fontSize: '12px', margin: 0 }}>Administrator</p>
             </div>
           </div>
           <button onClick={() => setLoggedIn(false)}
-            className="w-full text-left text-red-300 hover:text-red-200 text-sm flex items-center gap-2">
+            style={{ background: 'transparent', border: 'none', color: '#ff4444', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
             🚪 Sign Out
           </button>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto">
-        {/* Header */}
-        <div className="bg-white border-b px-8 py-4">
-          <h2 className="text-2xl font-bold text-gray-800 capitalize">
+      <div style={{ flex: 1, marginLeft: '240px', overflow: 'auto' }}>
+        <div style={{ background: '#111', borderBottom: '1px solid #222', padding: '20px 32px' }}>
+          <h2 style={{ color: '#fff', fontSize: '24px', fontWeight: '700', margin: '0 0 4px' }}>
             {tabs.find(t => t.id === activeTab)?.label}
           </h2>
-          <p className="text-gray-500 text-sm">Welcome back! Here's what's happening with your portfolio.</p>
+          <p style={{ color: '#555', fontSize: '14px', margin: 0 }}>Welcome back! Here's what's happening with your portfolio.</p>
         </div>
 
-        <div className="p-8">
+        <div style={{ padding: '32px' }}>
 
           {/* Dashboard */}
           {activeTab === 'dashboard' && (
             <div>
-              <div className="grid grid-cols-4 gap-6 mb-8">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '24px' }}>
                 {[
-                  { label: 'Total Projects', value: projects.length, icon: '💼', color: 'blue' },
-                  { label: 'Total Skills', value: skills.length, icon: '🛠️', color: 'green' },
-                  { label: 'Experience', value: experience.length, icon: '🎓', color: 'purple' },
-                  { label: 'Total Contacts', value: contacts.length, icon: '📧', color: 'orange' },
+                  { label: 'Total Projects', value: projects.length, icon: '💼' },
+                  { label: 'Total Skills', value: skills.length, icon: '🛠️' },
+                  { label: 'Experience', value: experience.length, icon: '🎓' },
+                  { label: 'Total Contacts', value: contacts.length, icon: '📧' },
                 ].map(stat => (
-                  <div key={stat.label} className="bg-white rounded-2xl p-6 border border-gray-200">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-2xl">{stat.icon}</span>
-                    </div>
-                    <p className="text-3xl font-bold text-gray-800">{stat.value}</p>
-                    <p className="text-gray-500 text-sm mt-1">{stat.label}</p>
+                  <div key={stat.label} style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px' }}>
+                    <span style={{ fontSize: '28px' }}>{stat.icon}</span>
+                    <p style={{ color: '#fff', fontSize: '32px', fontWeight: '700', margin: '12px 0 4px' }}>{stat.value}</p>
+                    <p style={{ color: '#555', fontSize: '13px', margin: 0 }}>{stat.label}</p>
                   </div>
                 ))}
               </div>
-
-              <div className="grid grid-cols-2 gap-6">
-                <div className="bg-white rounded-2xl p-6 border border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Content Overview</h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-600">✏️ Content Sections</span>
-                      <span className="font-semibold text-gray-800">3</span>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px' }}>
+                  <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: '600', marginBottom: '16px' }}>Content Overview</h3>
+                  {[
+                    { label: '✏️ Content Sections', value: 3 },
+                    { label: '💼 Projects', value: projects.length },
+                    { label: '🛠️ Skills', value: skills.length },
+                    { label: '🎓 Experience', value: experience.length },
+                  ].map(item => (
+                    <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #1a1a1a' }}>
+                      <span style={{ color: '#888', fontSize: '14px' }}>{item.label}</span>
+                      <span style={{ color: '#fff', fontWeight: '600', fontSize: '14px' }}>{item.value}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-600">💼 Projects</span>
-                      <span className="font-semibold text-gray-800">{projects.length}</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-600">🛠️ Skills</span>
-                      <span className="font-semibold text-gray-800">{skills.length}</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
-                      <span className="text-gray-600">🎓 Experience</span>
-                      <span className="font-semibold text-gray-800">{experience.length}</span>
-                    </div>
-                  </div>
+                  ))}
                 </div>
-
-                <div className="bg-white rounded-2xl p-6 border border-gray-200">
-                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
-                  <div className="space-y-3">
-                    {[
-                      { label: 'Edit Content', icon: '✏️', tab: 'content' },
-                      { label: 'Update Social Links', icon: '🔗', tab: 'social' },
-                      { label: 'View Analytics', icon: '📊', tab: 'analytics' },
-                      { label: 'Manage Contacts', icon: '📧', tab: 'contacts' },
-                    ].map(action => (
-                      <button key={action.label} onClick={() => setActiveTab(action.tab)}
-                        className="w-full text-left px-4 py-3 bg-gray-50 hover:bg-blue-50 hover:text-blue-600 rounded-xl text-sm transition flex items-center gap-2">
-                        {action.icon} {action.label}
-                      </button>
-                    ))}
-                  </div>
+                <div style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px' }}>
+                  <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: '600', marginBottom: '16px' }}>Quick Actions</h3>
+                  {[
+                    { label: 'Edit Content', icon: '✏️', tab: 'content' },
+                    { label: 'Update Social Links', icon: '🔗', tab: 'social' },
+                    { label: 'View Analytics', icon: '📊', tab: 'analytics' },
+                    { label: 'Manage Contacts', icon: '📧', tab: 'contacts' },
+                  ].map(action => (
+                    <button key={action.label} onClick={() => setActiveTab(action.tab)}
+                      style={{ width: '100%', textAlign: 'left', padding: '12px 16px', background: '#1a1a1a', border: '1px solid #222', borderRadius: '10px', color: '#888', fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', transition: 'all 0.2s' }}>
+                      {action.icon} {action.label}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
@@ -200,16 +186,16 @@ export default function Admin() {
           {/* Content Editor */}
           {activeTab === 'content' && (
             <div>
-              <div className="flex gap-4 mb-6">
-                {['projects', 'skills', 'experience'].map(tab => (
-                  <button key={tab} onClick={() => setActiveTab(tab === 'projects' ? 'content_projects' : tab === 'skills' ? 'content_skills' : 'content_experience')}
-                    className="px-6 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium hover:bg-blue-50 hover:text-blue-600 transition capitalize">
+              <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
+                {['Projects', 'Skills', 'Experience'].map((tab, i) => (
+                  <button key={tab} onClick={() => setActiveTab(['content_projects', 'content_skills', 'content_experience'][i])}
+                    style={{ padding: '10px 24px', background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', color: '#888', fontSize: '14px', cursor: 'pointer', fontWeight: '500' }}>
                     {tab}
                   </button>
                 ))}
               </div>
-              <div className="bg-white rounded-2xl p-6 border border-gray-200">
-                <p className="text-gray-500 text-center py-8">👆 Select a section above to edit content</p>
+              <div style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '40px', textAlign: 'center' }}>
+                <p style={{ color: '#555', fontSize: '14px' }}>👆 Select a section above to edit content</p>
               </div>
             </div>
           )}
@@ -217,56 +203,59 @@ export default function Admin() {
           {/* Projects */}
           {activeTab === 'content_projects' && (
             <div>
-              <div className="bg-white rounded-2xl p-6 border border-gray-200 mb-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Add New Project</h3>
-                <div className="space-y-3">
+              <div style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px', marginBottom: '20px' }}>
+                <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: '600', marginBottom: '16px' }}>Add New Project</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <input value={newProject.title} onChange={e => setNewProject({...newProject, title: e.target.value})}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:border-blue-500"
+                    style={{ background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none' }}
                     placeholder="Project title" />
                   <textarea value={newProject.description} onChange={e => setNewProject({...newProject, description: e.target.value})}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:border-blue-500"
+                    style={{ background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none', resize: 'vertical' }}
                     placeholder="Project description" rows={3} />
                   <input value={newProject.technologies} onChange={e => setNewProject({...newProject, technologies: e.target.value})}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:border-blue-500"
+                    style={{ background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none' }}
                     placeholder="Technologies (comma separated: React, Python)" />
-                  <button onClick={addProject} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl transition">Add Project</button>
+                  <button onClick={addProject}
+                    style={{ background: '#fff', color: '#000', border: 'none', borderRadius: '10px', padding: '12px 24px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', alignSelf: 'flex-start' }}>
+                    Add Project
+                  </button>
                 </div>
               </div>
-              <div className="space-y-4">
-                {projects.map((p, i) => (
-                  <div key={i} className="bg-white rounded-2xl p-6 border border-gray-200 flex justify-between items-start">
-                    <div>
-                      <h3 className="font-semibold text-blue-600">{p.title}</h3>
-                      <p className="text-gray-500 text-sm mt-1">{p.description}</p>
-                      <div className="flex gap-2 mt-2 flex-wrap">
-                        {p.technologies?.map(t => <span key={t} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs">{t}</span>)}
-                      </div>
+              {projects.map((p, i) => (
+                <div key={i} style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '20px', marginBottom: '12px', display: 'flex', justifyContent: 'space-between' }}>
+                  <div>
+                    <h3 style={{ color: '#fff', fontWeight: '600', margin: '0 0 6px' }}>{p.title}</h3>
+                    <p style={{ color: '#666', fontSize: '14px', margin: '0 0 10px' }}>{p.description}</p>
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                      {p.technologies?.map(t => <span key={t} style={{ background: '#1a1a1a', color: '#888', padding: '4px 12px', borderRadius: '20px', fontSize: '12px', border: '1px solid #333' }}>{t}</span>)}
                     </div>
-                    <button onClick={() => setProjects(projects.filter((_, idx) => idx !== i))}
-                      className="text-red-400 hover:text-red-600 text-sm ml-4 bg-red-50 px-3 py-1 rounded-lg">Delete</button>
                   </div>
-                ))}
-              </div>
+                  <button onClick={() => setProjects(projects.filter((_, idx) => idx !== i))}
+                    style={{ background: '#1a0000', color: '#ff4444', border: '1px solid #330000', borderRadius: '8px', padding: '6px 14px', fontSize: '13px', cursor: 'pointer', height: 'fit-content' }}>Delete</button>
+                </div>
+              ))}
             </div>
           )}
 
           {/* Skills */}
           {activeTab === 'content_skills' && (
             <div>
-              <div className="bg-white rounded-2xl p-6 border border-gray-200 mb-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Add New Skill</h3>
-                <div className="flex gap-3">
+              <div style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px', marginBottom: '20px' }}>
+                <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: '600', marginBottom: '16px' }}>Add New Skill</h3>
+                <div style={{ display: 'flex', gap: '12px' }}>
                   <input value={newSkill} onChange={e => setNewSkill(e.target.value)}
-                    className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:border-blue-500"
+                    style={{ flex: 1, background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none' }}
                     placeholder="Skill name" />
-                  <button onClick={addSkill} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl transition">Add</button>
+                  <button onClick={addSkill}
+                    style={{ background: '#fff', color: '#000', border: 'none', borderRadius: '10px', padding: '12px 24px', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>Add</button>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-3">
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                 {skills.map((s, i) => (
-                  <div key={i} className="bg-white border border-gray-200 rounded-full px-4 py-2 flex items-center gap-2">
-                    <span className="text-gray-700 text-sm">{s.title}</span>
-                    <button onClick={() => setSkills(skills.filter((_, idx) => idx !== i))} className="text-red-400 hover:text-red-600 text-xs">✕</button>
+                  <div key={i} style={{ background: '#111', border: '1px solid #222', borderRadius: '20px', padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ color: '#fff', fontSize: '14px' }}>{s.title}</span>
+                    <button onClick={() => setSkills(skills.filter((_, idx) => idx !== i))}
+                      style={{ background: 'transparent', border: 'none', color: '#ff4444', cursor: 'pointer', fontSize: '12px' }}>✕</button>
                   </div>
                 ))}
               </div>
@@ -276,103 +265,93 @@ export default function Admin() {
           {/* Experience */}
           {activeTab === 'content_experience' && (
             <div>
-              <div className="bg-white rounded-2xl p-6 border border-gray-200 mb-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Add Experience</h3>
-                <div className="space-y-3">
+              <div style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px', marginBottom: '20px' }}>
+                <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: '600', marginBottom: '16px' }}>Add Experience</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <input value={newExp.title} onChange={e => setNewExp({...newExp, title: e.target.value})}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:border-blue-500"
+                    style={{ background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none' }}
                     placeholder="Job title" />
                   <input value={newExp.company} onChange={e => setNewExp({...newExp, company: e.target.value})}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:border-blue-500"
+                    style={{ background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none' }}
                     placeholder="Company name" />
                   <input value={newExp.duration} onChange={e => setNewExp({...newExp, duration: e.target.value})}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:border-blue-500"
+                    style={{ background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none' }}
                     placeholder="Duration (e.g. 2024 - Present)" />
                   <textarea value={newExp.description} onChange={e => setNewExp({...newExp, description: e.target.value})}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:border-blue-500"
+                    style={{ background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none', resize: 'vertical' }}
                     placeholder="Description" rows={3} />
-                  <button onClick={addExp} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl transition">Add Experience</button>
+                  <button onClick={addExp}
+                    style={{ background: '#fff', color: '#000', border: 'none', borderRadius: '10px', padding: '12px 24px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', alignSelf: 'flex-start' }}>
+                    Add Experience
+                  </button>
                 </div>
               </div>
-              <div className="space-y-4">
-                {experience.map((exp, i) => (
-                  <div key={i} className="bg-white rounded-2xl p-6 border border-gray-200 flex justify-between items-start">
-                    <div>
-                      <h3 className="font-semibold text-blue-600">{exp.title}</h3>
-                      <p className="text-gray-600">{exp.company}</p>
-                      <p className="text-gray-400 text-sm">{exp.duration}</p>
-                      <p className="text-gray-500 text-sm mt-1">{exp.description}</p>
-                    </div>
-                    <button onClick={() => setExperience(experience.filter((_, idx) => idx !== i))}
-                      className="text-red-400 hover:text-red-600 text-sm ml-4 bg-red-50 px-3 py-1 rounded-lg">Delete</button>
+              {experience.map((exp, i) => (
+                <div key={i} style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '20px', marginBottom: '12px', display: 'flex', justifyContent: 'space-between' }}>
+                  <div>
+                    <h3 style={{ color: '#fff', fontWeight: '600', margin: '0 0 4px' }}>{exp.title}</h3>
+                    <p style={{ color: '#888', fontSize: '14px', margin: '0 0 2px' }}>{exp.company}</p>
+                    <p style={{ color: '#555', fontSize: '13px', margin: '0 0 8px' }}>{exp.duration}</p>
+                    <p style={{ color: '#666', fontSize: '14px', margin: 0 }}>{exp.description}</p>
                   </div>
-                ))}
-              </div>
+                  <button onClick={() => setExperience(experience.filter((_, idx) => idx !== i))}
+                    style={{ background: '#1a0000', color: '#ff4444', border: '1px solid #330000', borderRadius: '8px', padding: '6px 14px', fontSize: '13px', cursor: 'pointer', height: 'fit-content' }}>Delete</button>
+                </div>
+              ))}
             </div>
           )}
 
           {/* Contacts */}
           {activeTab === 'contacts' && (
             <div>
-              <div className="grid grid-cols-3 gap-6 mb-8">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '24px' }}>
                 {[
                   { label: 'Total Contacts', value: contacts.length, icon: '📧' },
                   { label: 'This Week', value: contacts.filter(c => { const d = new Date(c.date); const now = new Date(); return (now - d) / 86400000 <= 7 }).length, icon: '📅' },
                   { label: 'Unread', value: contacts.filter(c => !c.read).length, icon: '🔔' },
                 ].map(stat => (
-                  <div key={stat.label} className="bg-white rounded-2xl p-6 border border-gray-200">
-                    <span className="text-2xl">{stat.icon}</span>
-                    <p className="text-3xl font-bold text-gray-800 mt-2">{stat.value}</p>
-                    <p className="text-gray-500 text-sm">{stat.label}</p>
+                  <div key={stat.label} style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px' }}>
+                    <span style={{ fontSize: '28px' }}>{stat.icon}</span>
+                    <p style={{ color: '#fff', fontSize: '32px', fontWeight: '700', margin: '12px 0 4px' }}>{stat.value}</p>
+                    <p style={{ color: '#555', fontSize: '13px', margin: 0 }}>{stat.label}</p>
                   </div>
                 ))}
               </div>
-              <div className="bg-white rounded-2xl p-6 border border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Contacts</h3>
+              <div style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px' }}>
+                <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: '600', marginBottom: '16px' }}>Recent Contacts</h3>
                 {contacts.length === 0 ? (
-                  <div className="text-center py-12">
-                    <p className="text-4xl mb-4">📭</p>
-                    <p className="text-gray-500">No contacts yet</p>
+                  <div style={{ textAlign: 'center', padding: '48px' }}>
+                    <p style={{ fontSize: '40px', marginBottom: '12px' }}>📭</p>
+                    <p style={{ color: '#555', fontSize: '14px' }}>No contacts yet</p>
                   </div>
-                ) : (
-                  <div className="space-y-4">
-                    {contacts.map((c, i) => (
-                      <div key={i} className="flex items-start justify-between p-4 bg-gray-50 rounded-xl">
-                        <div>
-                          <p className="font-medium text-gray-800">{c.name}</p>
-                          <p className="text-gray-500 text-sm">{c.email}</p>
-                          <p className="text-gray-600 text-sm mt-1">{c.message}</p>
-                        </div>
-                        <button onClick={() => setContacts(contacts.filter((_, idx) => idx !== i))}
-                          className="text-red-400 text-sm bg-red-50 px-3 py-1 rounded-lg">Delete</button>
-                      </div>
-                    ))}
+                ) : contacts.map((c, i) => (
+                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '16px', background: '#1a1a1a', borderRadius: '12px', marginBottom: '10px' }}>
+                    <div>
+                      <p style={{ color: '#fff', fontWeight: '600', margin: '0 0 4px' }}>{c.name}</p>
+                      <p style={{ color: '#666', fontSize: '13px', margin: '0 0 6px' }}>{c.email}</p>
+                      <p style={{ color: '#888', fontSize: '14px', margin: 0 }}>{c.message}</p>
+                    </div>
+                    <button onClick={() => setContacts(contacts.filter((_, idx) => idx !== i))}
+                      style={{ background: '#1a0000', color: '#ff4444', border: '1px solid #330000', borderRadius: '8px', padding: '6px 14px', fontSize: '13px', cursor: 'pointer', height: 'fit-content' }}>Delete</button>
                   </div>
-                )}
+                ))}
               </div>
             </div>
           )}
 
           {/* Social Media */}
           {activeTab === 'social' && (
-            <div className="bg-white rounded-2xl p-6 border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-6">Social Media Links</h3>
-              <div className="space-y-4">
-                {[
-                  { key: 'github', label: 'GitHub', icon: '💻', placeholder: 'https://github.com/username' },
-                  { key: 'linkedin', label: 'LinkedIn', icon: '💼', placeholder: 'https://linkedin.com/in/username' },
-                  { key: 'twitter', label: 'Twitter', icon: '🐦', placeholder: 'https://twitter.com/username' },
-                  { key: 'instagram', label: 'Instagram', icon: '📸', placeholder: 'https://instagram.com/username' },
-                ].map(s => (
-                  <div key={s.key}>
-                    <label className="text-gray-600 text-sm mb-1 block">{s.icon} {s.label}</label>
-                    <input value={social[s.key]} onChange={e => setSocial({...social, [s.key]: e.target.value})}
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-800 focus:outline-none focus:border-blue-500"
-                      placeholder={s.placeholder} />
-                  </div>
-                ))}
-                <button onClick={() => alert('Social links saved!')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition font-medium">
+            <div style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px' }}>
+              <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: '600', marginBottom: '24px' }}>Social Media Links</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div>
+                  <label style={{ color: '#888', fontSize: '13px', display: 'block', marginBottom: '6px' }}>💼 LinkedIn</label>
+                  <input value={social.linkedin} onChange={e => setSocial({...social, linkedin: e.target.value})}
+                    style={{ width: '100%', background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
+                    placeholder="https://linkedin.com/in/username" />
+                </div>
+                <button onClick={() => alert('Social links saved! ✅')}
+                  style={{ background: '#fff', color: '#000', border: 'none', borderRadius: '10px', padding: '14px 24px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', alignSelf: 'flex-start' }}>
                   Save Social Links
                 </button>
               </div>
@@ -382,40 +361,37 @@ export default function Admin() {
           {/* Analytics */}
           {activeTab === 'analytics' && (
             <div>
-              <div className="grid grid-cols-3 gap-6 mb-8">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '24px' }}>
                 {[
                   { label: 'Total Projects', value: projects.length, icon: '💼' },
                   { label: 'Total Skills', value: skills.length, icon: '🛠️' },
                   { label: 'Experience Items', value: experience.length, icon: '🎓' },
                 ].map(stat => (
-                  <div key={stat.label} className="bg-white rounded-2xl p-6 border border-gray-200">
-                    <span className="text-2xl">{stat.icon}</span>
-                    <p className="text-3xl font-bold text-gray-800 mt-2">{stat.value}</p>
-                    <p className="text-gray-500 text-sm">{stat.label}</p>
+                  <div key={stat.label} style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px' }}>
+                    <span style={{ fontSize: '28px' }}>{stat.icon}</span>
+                    <p style={{ color: '#fff', fontSize: '32px', fontWeight: '700', margin: '12px 0 4px' }}>{stat.value}</p>
+                    <p style={{ color: '#555', fontSize: '13px', margin: 0 }}>{stat.label}</p>
                   </div>
                 ))}
               </div>
-              <div className="bg-white rounded-2xl p-6 border border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Portfolio Overview</h3>
-                <div className="space-y-4">
-                  {[
-                    { label: 'Projects', value: projects.length, max: 10, color: 'bg-blue-500' },
-                    { label: 'Skills', value: skills.length, max: 20, color: 'bg-green-500' },
-                    { label: 'Experience', value: experience.length, max: 10, color: 'bg-purple-500' },
-                    { label: 'Contacts', value: contacts.length, max: 50, color: 'bg-orange-500' },
-                  ].map(item => (
-                    <div key={item.label}>
-                      <div className="flex justify-between text-sm text-gray-600 mb-1">
-                        <span>{item.label}</span>
-                        <span>{item.value}</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className={`${item.color} h-2 rounded-full transition-all`}
-                          style={{ width: `${Math.min((item.value / item.max) * 100, 100)}%` }} />
-                      </div>
+              <div style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px' }}>
+                <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: '600', marginBottom: '20px' }}>Portfolio Overview</h3>
+                {[
+                  { label: 'Projects', value: projects.length, max: 10, color: '#3b82f6' },
+                  { label: 'Skills', value: skills.length, max: 20, color: '#22c55e' },
+                  { label: 'Experience', value: experience.length, max: 10, color: '#a855f7' },
+                  { label: 'Contacts', value: contacts.length, max: 50, color: '#f97316' },
+                ].map(item => (
+                  <div key={item.label} style={{ marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                      <span style={{ color: '#888', fontSize: '14px' }}>{item.label}</span>
+                      <span style={{ color: '#fff', fontSize: '14px', fontWeight: '600' }}>{item.value}</span>
                     </div>
-                  ))}
-                </div>
+                    <div style={{ background: '#1a1a1a', borderRadius: '4px', height: '6px' }}>
+                      <div style={{ background: item.color, height: '6px', borderRadius: '4px', width: `${Math.min((item.value / item.max) * 100, 100)}%`, transition: 'width 0.5s' }} />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}

@@ -1,25 +1,32 @@
 import { useState, useEffect } from 'react'
 
-export default function Skills() {
+const defaultSkills = [
+  "Python", "Data Analysis with Python", "SQL for Data Science",
+  "Microsoft Excel", "Cloud Computing", "Operating Systems",
+  "Technical Support", "Data Analytics Fundamentals"
+]
+
+export default function Skills({ darkMode }) {
   const [skills, setSkills] = useState([])
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('skills') || '[]')
-    setSkills(data)
+    setSkills(data.length > 0 ? data.map(s => s.title) : defaultSkills)
   }, [])
 
   return (
     <section id="skills" className="py-20 px-6 max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold text-center mb-10">Technical Skills</h2>
-      {skills.length === 0 ? (
-        <p className="text-center text-gray-400">No skills yet. Add them in Admin panel!</p>
-      ) : (
-        <div className="flex flex-wrap gap-3 justify-center">
-          {skills.map((s, i) => (
-            <span key={i} className="bg-blue-900 text-blue-200 px-4 py-2 rounded-full text-sm">{s.title}</span>
-          ))}
-        </div>
-      )}
+      <div className="text-center mb-12">
+        <span className="text-blue-400 text-sm font-medium tracking-widest uppercase">What I Know</span>
+        <h2 className="text-4xl font-bold mt-2">Technical Skills</h2>
+      </div>
+      <div className="flex flex-wrap gap-3 justify-center">
+        {skills.map((skill, i) => (
+          <span key={i} className={`px-4 py-2 rounded-full text-sm font-medium border transition hover:border-blue-400 hover:text-blue-400 ${darkMode ? 'bg-gray-900 border-gray-700 text-gray-300' : 'bg-gray-50 border-gray-200 text-gray-700'}`}>
+            {skill}
+          </span>
+        ))}
+      </div>
     </section>
   )
 }

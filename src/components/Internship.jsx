@@ -19,11 +19,11 @@ const websites = [
     tech: ["HTML", "CSS", "JavaScript", "API"],
     image: "/images/pokemon.png"
   },
-  {
+ {
     title: "Portfolio Website",
     desc: "A personal portfolio website built with React, Vite and Tailwind CSS with CMS integration.",
     tech: ["React", "Vite", "Tailwind CSS"],
-    image: "/images/profile.jpeg"
+    image: null
   }
 ]
 
@@ -46,8 +46,14 @@ export default function Internship({ darkMode }) {
           <div key={i} className={`${darkMode ? 'bg-gray-900 border-gray-800 hover:border-blue-500' : 'bg-gray-50 border-gray-200 hover:border-blue-400'} border rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 group`}>
             {/* Image */}
             <div className="relative overflow-hidden cursor-pointer h-48" onClick={() => setSelectedImage(site.image)}>
-              <img src={site.image} alt={site.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              {site.image ? (
+  <img src={site.image} alt={site.title}
+    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+) : (
+  <div className="w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+    <span className="text-white text-4xl">💼</span>
+  </div>
+)}
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                 <span className="text-white text-sm font-medium bg-blue-600 px-4 py-2 rounded-full">View Image 🔍</span>
               </div>

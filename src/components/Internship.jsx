@@ -5,7 +5,7 @@ const websites = [
   { title: "Nature Explorer", desc: "A beautiful nature-themed website with search functionality and dark mode built during internship at Tareenity.", tech: ["HTML", "CSS", "JavaScript"], image: "/images/nature.png" },
   { title: "Cricket Dashboard", desc: "A cricket stats dashboard showing team squads, player stats and live scorecards for multiple countries.", tech: ["HTML", "CSS", "JavaScript", "API"], image: "/images/cricket.png" },
   { title: "Pokédex Viewer", desc: "A Pokémon search app using the PokéAPI to display detailed information about any Pokémon.", tech: ["HTML", "CSS", "JavaScript", "API"], image: "/images/pokemon.png" },
-  { title: "Portfolio Website", desc: "A personal portfolio website built with React, Vite and Tailwind CSS with CMS integration.", tech: ["React", "Vite", "Tailwind CSS"], image: null }
+ { title: "Portfolio Website", desc: "A personal portfolio website built with React, Vite and Tailwind CSS with CMS integration.", tech: ["React", "Vite", "Tailwind CSS"], image: null, link: "https://my-portfolio-zzcr.vercel.app" }
 ]
 
 export default function Internship({ darkMode }) {
@@ -37,9 +37,11 @@ export default function Internship({ darkMode }) {
                 <motion.img src={site.image} alt={site.title} whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}
                   className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-                  <span className="text-white text-4xl">💼</span>
-                </div>
+                <div className="w-full h-full bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 flex flex-col items-center justify-center gap-2">
+  <span className="text-white text-4xl">🌐</span>
+  <span className="text-white text-sm font-medium">Muhammad Ali Faisal</span>
+  <span className="text-blue-200 text-xs">Portfolio Website</span>
+</div>
               )}
               {site.image && (
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

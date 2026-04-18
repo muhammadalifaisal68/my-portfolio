@@ -2,10 +2,6 @@ import { useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import emailjs from '@emailjs/browser'
 
-const SERVICE_ID = 'service_bv3mv27'
-const TEMPLATE_ID = 'gnodjtj'
-const PUBLIC_KEY = 'ZFWM6VmxJQlAG2qJh'
-
 export default function Contact({ darkMode }) {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
@@ -23,29 +19,36 @@ export default function Contact({ darkMode }) {
     setSending(true)
     setError('')
     try {
-      await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
-        from_name: formData.name,
-        from_email: formData.email,
-        message: formData.message,
-        to_name: 'Muhammad Ali Faisal',
-      }, PUBLIC_KEY)
+      await emailjs.send(
+        'service_bv3mv27',
+        'gnodjtj',
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_name: 'Muhammad Ali Faisal',
+          reply_to: formData.email,
+        },
+        'ZFWM6VmxJQlAG2qJh'
+      )
       const contacts = JSON.parse(localStorage.getItem('contacts') || '[]')
       contacts.push({ ...formData, date: new Date().toISOString(), read: false })
       localStorage.setItem('contacts', JSON.stringify(contacts))
       setSubmitted(true)
       setFormData({ name: '', email: '', message: '' })
     } catch (err) {
-      setError('Failed to send message. Please try again!')
+      setError('Failed to send message. Please check your connection and try again!')
+      console.error('EmailJS error:', err)
     }
     setSending(false)
   }
 
   return (
-    <section id="contact" className="py-20 px-6 max-w-4xl mx-auto" ref={ref}>
+    <section id="contact" className="py-20 px-6 max-w-5xl mx-auto" ref={ref}>
       <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}
         className="text-center mb-12">
         <span className="text-blue-400 text-sm font-medium tracking-widest uppercase">Get In Touch</span>
-        <h2 className="text-4xl font-bold mt-2">Contact Me</h2>
+        <h2 className={`text-4xl font-bold mt-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Contact Me</h2>
         <p className={`mt-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
           Feel free to reach out for internship or job opportunities.
         </p>
@@ -54,7 +57,7 @@ export default function Contact({ darkMode }) {
       <div className="grid md:grid-cols-2 gap-12">
         <motion.div initial={{ opacity: 0, x: -40 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ delay: 0.2, duration: 0.6 }}
           className="space-y-6">
-          <h3 className="text-xl font-semibold">Let's talk!</h3>
+          <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Let's talk!</h3>
           <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} leading-relaxed`}>
             I'm currently looking for new opportunities. Whether you have a question,
             a project in mind, or just want to say hi — my inbox is always open!
@@ -66,7 +69,7 @@ export default function Contact({ darkMode }) {
               { icon: '📍', label: 'Location', value: 'Peshawar, Pakistan', href: null },
             ].map((item, i) => (
               <motion.div key={i} whileHover={{ x: 6 }} className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-blue-600/20 rounded-xl flex items-center justify-center text-blue-400">{item.icon}</div>
+                <div className="w-10 h-10 bg-blue-600/20 rounded-xl flex items-center justify-center text-blue-400 text-lg">{item.icon}</div>
                 <div>
                   <p className={`text-sm ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>{item.label}</p>
                   {item.href ? (
@@ -86,7 +89,7 @@ export default function Contact({ darkMode }) {
             ].map((social, i) => (
               <motion.a key={i} href={social.href} target="_blank" rel="noreferrer"
                 whileHover={{ scale: 1.2, rotate: 5 }} whileTap={{ scale: 0.9 }}
-                className={`w-10 h-10 ${social.bg} rounded-full flex items-center justify-center text-white transition`}>
+                className={`w-10 h-10 ${social.bg} rounded-full flex items-center justify-center text-white transition shadow-lg`}>
                 {social.icon}
               </motion.a>
             ))}
@@ -94,45 +97,59 @@ export default function Contact({ darkMode }) {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, x: 40 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ delay: 0.3, duration: 0.6 }}
-          className={`${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-gray-50 border-gray-200'} border rounded-2xl p-6`}>
+          className={`${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border rounded-2xl p-6 shadow-xl`}>
           {submitted ? (
             <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
               className="text-center py-12">
-              <motion.p animate={{ rotate: [0, 10, -10, 0] }} transition={{ duration: 0.5 }} className="text-4xl mb-4">🎉</motion.p>
-              <h3 className="text-xl font-semibold mb-2">Message Sent!</h3>
-              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm mb-4`}>
-                Thanks for reaching out! I'll get back to you soon. Check your email for confirmation!
+              <motion.p animate={{ rotate: [0, 10, -10, 0] }} transition={{ duration: 0.5 }} className="text-5xl mb-4">🎉</motion.p>
+              <h3 className={`text-xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Message Sent!</h3>
+              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm mb-6`}>
+                Thanks for reaching out! I'll get back to you soon. Check your email for confirmation! 📧
               </p>
-              <button onClick={() => setSubmitted(false)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition text-sm">
-                Send Another
-              </button>
+              <motion.button whileHover={{ scale: 1.05 }} onClick={() => setSubmitted(false)}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition text-sm font-medium">
+                Send Another Message
+              </motion.button>
             </motion.div>
           ) : (
             <div className="space-y-4">
-              {error && <p className="text-red-400 text-sm bg-red-400/10 px-4 py-2 rounded-xl">{error}</p>}
+              <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Send a Message</h3>
+              {error && (
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  className="text-red-400 text-sm bg-red-400/10 border border-red-400/20 px-4 py-3 rounded-xl">
+                  ⚠️ {error}
+                </motion.p>
+              )}
               {[
                 { label: 'Your Name', key: 'name', type: 'text', placeholder: 'Muhammad Ali' },
-                { label: 'Your Email', key: 'email', type: 'email', placeholder: 'example@email.com' },
+                { label: 'Your Email', key: 'email', type: 'email', placeholder: 'example@gmail.com' },
               ].map((field, i) => (
                 <div key={i}>
-                  <label className={`text-sm mb-1 block ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{field.label}</label>
+                  <label className={`text-sm mb-1 block font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{field.label}</label>
                   <input type={field.type} value={formData[field.key]}
                     onChange={e => setFormData({...formData, [field.key]: e.target.value})}
-                    className={`w-full ${darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-gray-900'} border rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition`}
+                    className={`w-full ${darkMode ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500' : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'} border rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition`}
                     placeholder={field.placeholder} />
                 </div>
               ))}
               <div>
-                <label className={`text-sm mb-1 block ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Message</label>
+                <label className={`text-sm mb-1 block font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Message</label>
                 <textarea value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})}
-                  className={`w-full ${darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-gray-900'} border rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition resize-none`}
-                  placeholder="Hi, I'd like to hire you..." rows={5} />
+                  className={`w-full ${darkMode ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500' : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'} border rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition resize-none`}
+                  placeholder="Hi, I'd like to hire you for a project..." rows={5} />
               </div>
               <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                 onClick={handleSubmit} disabled={sending}
-                className={`w-full ${sending ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} text-white py-3 rounded-xl font-medium transition shadow-lg shadow-blue-500/20`}>
-                {sending ? 'Sending... ⏳' : 'Send Message 🚀'}
+                className={`w-full ${sending ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} text-white py-3 rounded-xl font-semibold transition shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2`}>
+                {sending ? (
+                  <>
+                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                      className="w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
+                    Sending...
+                  </>
+                ) : (
+                  'Send Message 🚀'
+                )}
               </motion.button>
             </div>
           )}

@@ -1,20 +1,43 @@
 import { useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
+import emailjs from '@emailjs/browser'
+
+const SERVICE_ID = 'service_bv3mv27'
+const TEMPLATE_ID = 'gnodjtj'
+const PUBLIC_KEY = 'ZFWM6VmxJQlAG2qJh'
 
 export default function Contact({ darkMode }) {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
   const ref = useRef(null)
   const inView = useInView(ref, { once: true })
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    if (!formData.name || !formData.email || !formData.message) return
-    const contacts = JSON.parse(localStorage.getItem('contacts') || '[]')
-    contacts.push({ ...formData, date: new Date().toISOString(), read: false })
-    localStorage.setItem('contacts', JSON.stringify(contacts))
-    setSubmitted(true)
-    setFormData({ name: '', email: '', message: '' })
+    if (!formData.name || !formData.email || !formData.message) {
+      setError('Please fill in all fields!')
+      return
+    }
+    setSending(true)
+    setError('')
+    try {
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_name: 'Muhammad Ali Faisal',
+      }, PUBLIC_KEY)
+      const contacts = JSON.parse(localStorage.getItem('contacts') || '[]')
+      contacts.push({ ...formData, date: new Date().toISOString(), read: false })
+      localStorage.setItem('contacts', JSON.stringify(contacts))
+      setSubmitted(true)
+      setFormData({ name: '', email: '', message: '' })
+    } catch (err) {
+      setError('Failed to send message. Please try again!')
+    }
+    setSending(false)
   }
 
   return (
@@ -38,25 +61,23 @@ export default function Contact({ darkMode }) {
           </p>
           <div className="space-y-4">
             {[
-              { icon: '📧', label: 'Email', value: 'alifaisal68@icloud.com', href: 'mailto:alifaisal68@icloud.com' },
+              { icon: '📧', label: 'Email', value: 'muhammadalifaisal68@gmail.com', href: 'mailto:muhammadalifaisal68@gmail.com' },
               { icon: '📞', label: 'Phone', value: '0317-6185763', href: null },
               { icon: '📍', label: 'Location', value: 'Peshawar, Pakistan', href: null },
             ].map((item, i) => (
-              <motion.div key={i} whileHover={{ x: 6 }}
-                className="flex items-center gap-4">
+              <motion.div key={i} whileHover={{ x: 6 }} className="flex items-center gap-4">
                 <div className="w-10 h-10 bg-blue-600/20 rounded-xl flex items-center justify-center text-blue-400">{item.icon}</div>
                 <div>
                   <p className={`text-sm ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>{item.label}</p>
                   {item.href ? (
                     <a href={item.href} className="text-blue-400 hover:underline">{item.value}</a>
                   ) : (
-                    <p>{item.value}</p>
+                    <p className={darkMode ? 'text-gray-300' : 'text-gray-700'}>{item.value}</p>
                   )}
                 </div>
               </motion.div>
             ))}
           </div>
-
           <div className="flex gap-3 pt-4">
             {[
               { href: "https://www.linkedin.com/in/muhammad-ali-faisal", bg: "bg-blue-600 hover:bg-blue-700", icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg> },
@@ -79,7 +100,9 @@ export default function Contact({ darkMode }) {
               className="text-center py-12">
               <motion.p animate={{ rotate: [0, 10, -10, 0] }} transition={{ duration: 0.5 }} className="text-4xl mb-4">🎉</motion.p>
               <h3 className="text-xl font-semibold mb-2">Message Sent!</h3>
-              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm mb-4`}>Thanks for reaching out! I'll get back to you soon.</p>
+              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm mb-4`}>
+                Thanks for reaching out! I'll get back to you soon. Check your email for confirmation!
+              </p>
               <button onClick={() => setSubmitted(false)}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition text-sm">
                 Send Another
@@ -87,17 +110,18 @@ export default function Contact({ darkMode }) {
             </motion.div>
           ) : (
             <div className="space-y-4">
+              {error && <p className="text-red-400 text-sm bg-red-400/10 px-4 py-2 rounded-xl">{error}</p>}
               {[
                 { label: 'Your Name', key: 'name', type: 'text', placeholder: 'Muhammad Ali' },
                 { label: 'Your Email', key: 'email', type: 'email', placeholder: 'example@email.com' },
               ].map((field, i) => (
-                <motion.div key={i} whileFocus={{ scale: 1.01 }}>
+                <div key={i}>
                   <label className={`text-sm mb-1 block ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{field.label}</label>
                   <input type={field.type} value={formData[field.key]}
                     onChange={e => setFormData({...formData, [field.key]: e.target.value})}
                     className={`w-full ${darkMode ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-gray-900'} border rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition`}
                     placeholder={field.placeholder} />
-                </motion.div>
+                </div>
               ))}
               <div>
                 <label className={`text-sm mb-1 block ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Message</label>
@@ -106,9 +130,9 @@ export default function Contact({ darkMode }) {
                   placeholder="Hi, I'd like to hire you..." rows={5} />
               </div>
               <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                onClick={handleSubmit}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-medium transition shadow-lg shadow-blue-500/20">
-                Send Message 🚀
+                onClick={handleSubmit} disabled={sending}
+                className={`w-full ${sending ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} text-white py-3 rounded-xl font-medium transition shadow-lg shadow-blue-500/20`}>
+                {sending ? 'Sending... ⏳' : 'Send Message 🚀'}
               </motion.button>
             </div>
           )}

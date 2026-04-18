@@ -4,7 +4,7 @@ const ADMIN_USER = 'admin'
 const ADMIN_PASS = 'admin123'
 
 export default function Admin() {
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(() => localStorage.getItem('adminLoggedIn') === 'true')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -30,7 +30,10 @@ export default function Admin() {
 
   function handleLogin(e) {
     e.preventDefault()
-    if (username === ADMIN_USER && password === ADMIN_PASS) setLoggedIn(true)
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
+  setLoggedIn(true)
+  localStorage.setItem('adminLoggedIn', 'true')
+}
     else setError('Wrong username or password!')
   }
 
@@ -117,7 +120,7 @@ export default function Admin() {
               <p style={{ color: '#555', fontSize: '12px', margin: 0 }}>Administrator</p>
             </div>
           </div>
-          <button onClick={() => setLoggedIn(false)}
+          <button onClick={() => { setLoggedIn(false); localStorage.removeItem('adminLoggedIn') }}
             style={{ background: 'transparent', border: 'none', color: '#ff4444', fontSize: '13px', cursor: 'pointer' }}>
             🚪 Sign Out
           </button>
@@ -437,4 +440,4 @@ export default function Admin() {
       </div>
     </div>
   )
-}
+}  

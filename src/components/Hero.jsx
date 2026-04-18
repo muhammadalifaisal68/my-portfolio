@@ -15,6 +15,16 @@ export default function Hero({ darkMode }) {
   const [typing, setTyping] = useState(true)
   const [count1, setCount1] = useState(0)
   const [count2, setCount2] = useState(0)
+  const [profile, setProfile] = useState({
+    name: 'Muhammad Ali Faisal',
+    title: 'Software Engineer & Data Analytics Student',
+    bio: 'Motivated Software Engineer and Data Analytics student with hands-on experience in Python, SQL, Excel, and cloud computing. Recently completed an internship at Tareenity where I built multiple real-world websites. Seeking opportunities to grow professionally.'
+  })
+
+  useEffect(() => {
+    const saved = localStorage.getItem('profile')
+    if (saved) setProfile(JSON.parse(saved))
+  }, [])
 
   useEffect(() => {
     const current = titles[titleIndex]
@@ -44,7 +54,7 @@ export default function Hero({ darkMode }) {
   }, [])
 
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
+    <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-24 relative overflow-hidden">
       <div className={`absolute inset-0 ${darkMode ? 'bg-gradient-to-br from-blue-950 via-gray-950 to-gray-950' : 'bg-gradient-to-br from-blue-50 via-white to-white'} z-0`} />
 
       <div className="relative z-10 flex flex-col items-center">
@@ -53,7 +63,6 @@ export default function Hero({ darkMode }) {
           className="mb-8">
           <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} glareEnable={true} glareMaxOpacity={0.2} className="rounded-full">
             <div className="relative">
-              {/* Animated gradient border */}
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
@@ -75,8 +84,8 @@ export default function Hero({ darkMode }) {
 
         <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.6 }}
           className="text-5xl md:text-6xl font-bold mb-4"
-          style={{ background: 'linear-gradient(135deg, #fff 0%, #60a5fa 50%, #a78bfa 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          Muhammad Ali Faisal
+          style={{ background: darkMode ? 'linear-gradient(135deg, #fff 0%, #60a5fa 50%, #a78bfa 100%)' : 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #7c3aed 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          {profile.name}
         </motion.h1>
 
         {/* Typing Animation */}
@@ -88,10 +97,7 @@ export default function Hero({ darkMode }) {
 
         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
           className={`max-w-2xl mx-auto leading-relaxed mb-8 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-          Motivated Software Engineer and Data Analytics student with hands-on experience in Python,
-          SQL, Excel, and cloud computing. Recently completed an internship at
-          <span className="text-blue-400 font-medium"> Tareenity</span> where I built
-          multiple real-world websites. Seeking opportunities to grow professionally.
+          {profile.bio}
         </motion.p>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}

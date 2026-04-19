@@ -9,7 +9,7 @@ export default function Admin() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [activeTab, setActiveTab] = useState('dashboard')
-  const [contentTab, setContentTab] = useState('projects')
+  const [contentTab, setContentTab] = useState('profile')
 
   const [projects, setProjects] = useState(() => JSON.parse(localStorage.getItem('projects') || '[]'))
   const [skills, setSkills] = useState(() => JSON.parse(localStorage.getItem('skills') || '[]'))
@@ -20,7 +20,9 @@ export default function Admin() {
 
   const [newProject, setNewProject] = useState({ title: '', description: '', technologies: '' })
   const [newSkill, setNewSkill] = useState('')
+  const [newSkillLevel, setNewSkillLevel] = useState(75)
   const [newExp, setNewExp] = useState({ title: '', company: '', duration: '', description: '' })
+  const [editingSkill, setEditingSkill] = useState(null)
 
   useEffect(() => { localStorage.setItem('projects', JSON.stringify(projects)) }, [projects])
   useEffect(() => { localStorage.setItem('skills', JSON.stringify(skills)) }, [skills])
@@ -31,10 +33,11 @@ export default function Admin() {
   function handleLogin(e) {
     e.preventDefault()
     if (username === ADMIN_USER && password === ADMIN_PASS) {
-  setLoggedIn(true)
-  localStorage.setItem('adminLoggedIn', 'true')
-}
-    else setError('Wrong username or password!')
+      setLoggedIn(true)
+      localStorage.setItem('adminLoggedIn', 'true')
+    } else {
+      setError('Wrong username or password!')
+    }
   }
 
   function addProject() {
@@ -45,8 +48,15 @@ export default function Admin() {
 
   function addSkill() {
     if (!newSkill) return
-    setSkills([...skills, { title: newSkill }])
+    setSkills([...skills, { title: newSkill, level: parseInt(newSkillLevel) || 75 }])
     setNewSkill('')
+    setNewSkillLevel(75)
+  }
+
+  function updateSkillLevel(i, level) {
+    const updated = [...skills]
+    updated[i] = { ...updated[i], level: parseInt(level) }
+    setSkills(updated)
   }
 
   function addExp() {
@@ -84,7 +94,7 @@ export default function Admin() {
               <label style={{ color: '#888', fontSize: '13px', display: 'block', marginBottom: '6px' }}>Password</label>
               <input type="password" value={password} onChange={e => setPassword(e.target.value)}
                 style={{ width: '100%', background: '#1a1a1a', border: '1px solid #333', borderRadius: '12px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
-                placeholder="Enter password" />
+                placeholder="Enter password" onKeyDown={e => e.key === 'Enter' && handleLogin(e)} />
             </div>
             <button onClick={handleLogin}
               style={{ width: '100%', background: '#fff', color: '#000', border: 'none', borderRadius: '12px', padding: '14px', fontSize: '15px', fontWeight: '600', cursor: 'pointer' }}>
@@ -99,7 +109,7 @@ export default function Admin() {
   return (
     <div style={{ minHeight: '100vh', background: '#0a0a0a', display: 'flex' }}>
       {/* Sidebar */}
-      <div style={{ width: '240px', background: '#111', borderRight: '1px solid #222', display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh' }}>
+      <div style={{ width: '240px', background: '#111', borderRight: '1px solid #222', display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh', overflowY: 'auto' }}>
         <div style={{ padding: '24px 20px', borderBottom: '1px solid #222' }}>
           <h1 style={{ color: '#fff', fontSize: '18px', fontWeight: '700', margin: '0 0 4px' }}>CMS Admin</h1>
           <p style={{ color: '#555', fontSize: '12px', margin: 0 }}>Portfolio Management</p>
@@ -192,15 +202,20 @@ export default function Admin() {
           {activeTab === 'content' && (
             <div>
               <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
-                {['profile', 'projects', 'skills', 'experience'].map(tab => (
-                  <button key={tab} onClick={() => setContentTab(tab)}
-                    style={{ padding: '10px 24px', background: contentTab === tab ? '#fff' : '#1a1a1a', border: '1px solid #333', borderRadius: '10px', color: contentTab === tab ? '#000' : '#888', fontSize: '14px', cursor: 'pointer', fontWeight: '500', textTransform: 'capitalize' }}>
-                    {tab === 'profile' ? '👤 Profile' : tab === 'projects' ? '💼 Projects' : tab === 'skills' ? '🛠️ Skills' : '🎓 Experience'}
+                {[
+                  { id: 'profile', label: '👤 Profile' },
+                  { id: 'projects', label: '💼 Projects' },
+                  { id: 'skills', label: '🛠️ Skills' },
+                  { id: 'experience', label: '🎓 Experience' },
+                ].map(tab => (
+                  <button key={tab.id} onClick={() => setContentTab(tab.id)}
+                    style={{ padding: '10px 24px', background: contentTab === tab.id ? '#fff' : '#1a1a1a', border: '1px solid #333', borderRadius: '10px', color: contentTab === tab.id ? '#000' : '#888', fontSize: '14px', cursor: 'pointer', fontWeight: '500' }}>
+                    {tab.label}
                   </button>
                 ))}
               </div>
 
-              {/* Profile Editor */}
+              {/* Profile */}
               {contentTab === 'profile' && (
                 <div style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px' }}>
                   <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: '600', marginBottom: '16px' }}>Edit Profile</h3>
@@ -215,17 +230,17 @@ export default function Admin() {
                       <label style={{ color: '#888', fontSize: '13px', display: 'block', marginBottom: '6px' }}>Title</label>
                       <input value={profile.title} onChange={e => setProfile({...profile, title: e.target.value})}
                         style={{ width: '100%', background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none', boxSizing: 'border-box' }}
-                        placeholder="Your title e.g. Software Engineer" />
+                        placeholder="Your title" />
                     </div>
                     <div>
                       <label style={{ color: '#888', fontSize: '13px', display: 'block', marginBottom: '6px' }}>Bio / Description</label>
                       <textarea value={profile.bio} onChange={e => setProfile({...profile, bio: e.target.value})}
                         style={{ width: '100%', background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none', resize: 'vertical', boxSizing: 'border-box' }}
-                        placeholder="Your bio description" rows={4} />
+                        placeholder="Your bio" rows={4} />
                     </div>
-                    <button onClick={() => alert('Profile saved! ✅')}
+                    <button onClick={() => alert('Profile saved! ✅ Refresh your portfolio to see changes.')}
                       style={{ background: '#fff', color: '#000', border: 'none', borderRadius: '10px', padding: '12px 24px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', alignSelf: 'flex-start' }}>
-                      Save Profile
+                      Save Profile ✅
                     </button>
                   </div>
                 </div>
@@ -273,20 +288,33 @@ export default function Admin() {
                 <div>
                   <div style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '24px', marginBottom: '20px' }}>
                     <h3 style={{ color: '#fff', fontSize: '16px', fontWeight: '600', marginBottom: '16px' }}>Add New Skill</h3>
-                    <div style={{ display: 'flex', gap: '12px' }}>
+                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                       <input value={newSkill} onChange={e => setNewSkill(e.target.value)}
-                        style={{ flex: 1, background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none' }}
+                        style={{ flex: 1, minWidth: '200px', background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none' }}
                         placeholder="Skill name" />
+                      <input value={newSkillLevel} onChange={e => setNewSkillLevel(e.target.value)}
+                        type="number" min="1" max="100"
+                        style={{ width: '100px', background: '#1a1a1a', border: '1px solid #333', borderRadius: '10px', padding: '12px 16px', color: '#fff', fontSize: '14px', outline: 'none' }}
+                        placeholder="%" />
                       <button onClick={addSkill}
                         style={{ background: '#fff', color: '#000', border: 'none', borderRadius: '10px', padding: '12px 24px', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>Add</button>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {skills.map((s, i) => (
-                      <div key={i} style={{ background: '#111', border: '1px solid #222', borderRadius: '20px', padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ color: '#fff', fontSize: '14px' }}>{s.title}</span>
+                      <div key={i} style={{ background: '#111', border: '1px solid #222', borderRadius: '16px', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <span style={{ color: '#fff', fontSize: '14px', flex: 1 }}>{s.title}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <input type="number" min="1" max="100" value={s.level || 75}
+                            onChange={e => updateSkillLevel(i, e.target.value)}
+                            style={{ width: '70px', background: '#1a1a1a', border: '1px solid #333', borderRadius: '8px', padding: '6px 10px', color: '#3b82f6', fontSize: '14px', outline: 'none', fontWeight: '600' }} />
+                          <span style={{ color: '#555', fontSize: '12px' }}>%</span>
+                          <div style={{ width: '100px', height: '6px', background: '#1a1a1a', borderRadius: '4px', overflow: 'hidden' }}>
+                            <div style={{ width: `${s.level || 75}%`, height: '100%', background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)', borderRadius: '4px' }} />
+                          </div>
+                        </div>
                         <button onClick={() => setSkills(skills.filter((_, idx) => idx !== i))}
-                          style={{ background: 'transparent', border: 'none', color: '#ff4444', cursor: 'pointer', fontSize: '12px' }}>✕</button>
+                          style={{ background: '#1a0000', color: '#ff4444', border: '1px solid #330000', borderRadius: '8px', padding: '6px 14px', fontSize: '13px', cursor: 'pointer' }}>Delete</button>
                       </div>
                     ))}
                   </div>
@@ -392,7 +420,7 @@ export default function Admin() {
                 ))}
                 <button onClick={() => alert('Social links saved! ✅')}
                   style={{ background: '#fff', color: '#000', border: 'none', borderRadius: '10px', padding: '14px 24px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', alignSelf: 'flex-start' }}>
-                  Save Social Links
+                  Save Social Links ✅
                 </button>
               </div>
             </div>
@@ -440,4 +468,4 @@ export default function Admin() {
       </div>
     </div>
   )
-}  
+}

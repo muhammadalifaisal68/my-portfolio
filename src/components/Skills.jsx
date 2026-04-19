@@ -14,13 +14,15 @@ const defaultSkills = [
 ]
 
 export default function Skills({ darkMode }) {
-  const [skills, setSkills] = useState([])
+  const [skills, setSkills] = useState(defaultSkills)
   const ref = useRef(null)
   const inView = useInView(ref, { once: true })
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('skills') || '[]')
-    setSkills(data.length > 0 ? data.map((s, i) => ({ name: s.title, level: 70 + i * 2 })) : defaultSkills)
+    if (data.length > 0) {
+      setSkills(data.map((s, i) => ({ name: s.title || s.name, level: s.level || 70 })))
+    }
   }, [])
 
   return (
@@ -28,9 +30,8 @@ export default function Skills({ darkMode }) {
       <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}
         className="text-center mb-12">
         <span className="text-blue-400 text-sm font-medium tracking-widest uppercase">What I Know</span>
-        <h2 className="text-4xl font-bold mt-2">Technical Skills</h2>
+        <h2 className={`text-4xl font-bold mt-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Technical Skills</h2>
       </motion.div>
-
       <div className="grid md:grid-cols-2 gap-6">
         {skills.map((skill, i) => (
           <motion.div key={i}
@@ -38,7 +39,7 @@ export default function Skills({ darkMode }) {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: i * 0.08, duration: 0.5 }}>
             <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5}>
-              <div className={`${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-gray-50 border-gray-200'} border rounded-xl p-4 hover:border-blue-500 transition-all duration-300`}>
+              <div className={`${darkMode ? 'bg-gray-900 border-gray-800 hover:border-blue-500' : 'bg-white border-gray-200 hover:border-blue-400'} border rounded-xl p-4 transition-all duration-300 shadow-sm`}>
                 <div className="flex justify-between mb-2">
                   <span className={`text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{skill.name}</span>
                   <span className="text-sm text-blue-400 font-bold">{skill.level}%</span>

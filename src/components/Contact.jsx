@@ -1,5 +1,8 @@
 import { useState, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
+import emailjs from '@emailjs/browser'
+
+emailjs.init('ZFWM6VmxJQlAG2qJh')
 
 export default function Contact({ darkMode }) {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
@@ -18,33 +21,26 @@ export default function Contact({ darkMode }) {
     setSending(true)
     setError('')
     try {
-      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          service_id: 'service_bv3mv27',
-          template_id: 'gnodjtj',
-          user_id: 'ZFWM6VmxJQlAG2qJh',
-          template_params: {
-            from_name: formData.name,
-            from_email: formData.email,
-            message: formData.message,
-            to_name: 'Muhammad Ali Faisal',
-            reply_to: formData.email,
-          }
-        })
-      })
-      if (response.ok) {
-        const contacts = JSON.parse(localStorage.getItem('contacts') || '[]')
-        contacts.push({ ...formData, date: new Date().toISOString(), read: false })
-        localStorage.setItem('contacts', JSON.stringify(contacts))
-        setSubmitted(true)
-        setFormData({ name: '', email: '', message: '' })
-      } else {
-        setError('Failed to send. Please try again!')
-      }
+      const result = await emailjs.send(
+        'service_bv3mv27',
+        'gnodjtj',
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_name: 'Muhammad Ali Faisal',
+          reply_to: formData.email,
+        }
+      )
+      console.log('EmailJS success:', result)
+      const contacts = JSON.parse(localStorage.getItem('contacts') || '[]')
+      contacts.push({ ...formData, date: new Date().toISOString(), read: false })
+      localStorage.setItem('contacts', JSON.stringify(contacts))
+      setSubmitted(true)
+      setFormData({ name: '', email: '', message: '' })
     } catch (err) {
-      setError('Failed to send. Please try again!')
+      console.error('EmailJS error:', err)
+      setError(`Failed to send: ${err.text || err.message || 'Please try again!'}`)
     }
     setSending(false)
   }

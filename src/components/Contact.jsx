@@ -23,7 +23,7 @@ export default function Contact({ darkMode }) {
     try {
       const result = await emailjs.send(
         'service_bv3mv27',
-        'gnodjtj',
+        'template_kq026sg',
         {
           from_name: formData.name,
           from_email: formData.email,

@@ -5,7 +5,7 @@ import emailjs from '@emailjs/browser'
 emailjs.init('ZFWM6VmxJQlAG2qJh')
 
 export default function Contact({ darkMode }) {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')

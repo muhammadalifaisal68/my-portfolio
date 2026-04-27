@@ -13,7 +13,7 @@ export default function Hero({ darkMode }) {
   const [profile, setProfile] = useState({
     name: 'Muhammad Ali Faisal',
     title: 'Software Engineer & Data Analytics Student',
-    bio: 'Motivated Software Engineer and Data Analytics student with hands-on experience in Python, SQL, Excel, and cloud computing. Recently completed an internship at Tareenity where I built multiple real-world websites.'
+    bio: 'Motivated Computer Science student with a Diploma in Information Technology, seeking opportunities in software development, data analytics, and IT support. Recently completed internships at Tareenity and Zypher Enterprises.'
   })
 
   useEffect(() => {
@@ -49,36 +49,41 @@ export default function Hero({ darkMode }) {
   }, [])
 
   return (
-    <section id="hero" aria-label="Hero section" className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-24 relative overflow-hidden">
+    <section id="hero" className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-28 pb-16 relative overflow-hidden">
       <div className={`absolute inset-0 z-0 ${darkMode ? 'bg-gradient-to-br from-blue-950 via-gray-950 to-gray-950' : 'bg-gradient-to-br from-blue-50 via-white to-white'}`} />
       <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }} transition={{ duration: 4, repeat: Infinity }}
         className="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl z-0" />
       <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.2, 0.1] }} transition={{ duration: 5, repeat: Infinity, delay: 1 }}
         className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl z-0" />
 
-      <div className="relative z-10 flex flex-col items-center max-w-4xl mx-auto">
+      <div className="relative z-10 flex flex-col items-center max-w-4xl mx-auto w-full">
         <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.8, type: 'spring' }} className="mb-8">
-          <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} glareEnable={true} glareMaxOpacity={0.2} className="rounded-full">
-            <div className="relative">
+          <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} glareEnable={true} glareMaxOpacity={0.2} className="rounded-full inline-block">
+            <div className="relative inline-block">
               <motion.div animate={{ rotate: 360 }} transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
                 className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 blur-sm opacity-75" />
-              <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-gray-950">
-                <img src="/images/profile.jpeg" alt="Muhammad Ali Faisal - Software Engineer" className="w-full h-full object-cover" loading="eager" />
+              <div className="relative w-40 h-40 rounded-full overflow-hidden border-4 border-gray-950 shadow-2xl">
+                <img
+                  src="/images/profile.jpeg"
+                  alt="Muhammad Ali Faisal - Software Engineer"
+                  className="w-full h-full object-cover object-top"
+                  loading="eager"
+                />
               </div>
               <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 2, repeat: Infinity }}
-                className="absolute bottom-2 right-2 w-4 h-4 bg-green-400 rounded-full border-2 border-gray-950 z-10" />
+                className="absolute bottom-3 right-3 w-4 h-4 bg-green-400 rounded-full border-2 border-gray-950 z-10" />
             </div>
           </Tilt>
         </motion.div>
 
         <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          className="text-blue-400 text-sm font-medium tracking-widest uppercase mb-4 block">
+          className="text-blue-400 text-sm font-medium tracking-widest uppercase mb-3 block">
           Welcome to my portfolio
         </motion.span>
 
         <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.6 }}
-          className={`text-5xl md:text-6xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-          Hi, I'm <span className="text-blue-400">{profile.name.split(' ')[1]}</span> 👋
+          className={`text-4xl md:text-6xl font-bold mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          Hi, I'm <span className="text-blue-400">Muhammad Ali Faisal</span>
         </motion.h1>
 
         <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
@@ -86,12 +91,12 @@ export default function Hero({ darkMode }) {
           I build <span className="text-blue-400 font-semibold">web applications</span> & analyze <span className="text-purple-400 font-semibold">data</span>
         </motion.p>
 
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="h-8 mb-6">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="h-8 mb-5">
           <p className="text-xl font-medium text-blue-400">{displayed}<span className="animate-pulse">|</span></p>
         </motion.div>
 
         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
-          className={`max-w-2xl mx-auto leading-relaxed mb-8 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+          className={`max-w-2xl mx-auto leading-relaxed mb-8 text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
           {profile.bio}
         </motion.p>
 
@@ -99,19 +104,19 @@ export default function Hero({ darkMode }) {
           className="flex gap-4 justify-center flex-wrap mb-8">
           <motion.a href="#projects" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}
             className="px-8 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/30 font-medium transition">
-            View My Work 🚀
+            View My Work
           </motion.a>
           <motion.a href="#contact" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}
             className={`px-8 py-3 rounded-full border-2 border-blue-500 font-medium transition ${darkMode ? 'text-white hover:bg-blue-600/20' : 'text-blue-600 hover:bg-blue-50'}`}>
-            Contact Me 📬
+            Contact Me
           </motion.a>
-          <motion.a href="/images/profile.jpeg" download whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}
+          <motion.a href="/CV.pdf" download="Muhammad_Ali_Faisal_CV.pdf" whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}
             className={`px-8 py-3 rounded-full border font-medium transition ${darkMode ? 'border-gray-600 hover:bg-gray-800 text-gray-300' : 'border-gray-300 hover:bg-gray-100 text-gray-600'}`}>
-            Download CV 📄
+            Download CV
           </motion.a>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="flex gap-4 mb-12">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="flex gap-4 mb-10">
           {[
             { href: "https://www.linkedin.com/in/muhammad-ali-faisal", bg: "bg-blue-600 hover:bg-blue-700", label: "LinkedIn", icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg> },
             { href: "https://www.instagram.com/_ali.faisal9?igsh=MWJqank1dGVvZXdnYQ%3D%3D&utm_source=qr", bg: "bg-gradient-to-br from-pink-500 to-purple-600", label: "Instagram", icon: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> },
@@ -130,7 +135,7 @@ export default function Hero({ darkMode }) {
           {[
             { value: `${count1}+`, label: 'Websites Built' },
             { value: `${count2}+`, label: 'Certifications' },
-            { value: '1', label: 'Internship' },
+            { value: '2', label: 'Internships' },
           ].map((stat, i) => (
             <motion.div key={i} whileHover={{ scale: 1.1 }} className="text-center">
               <p className="text-3xl font-bold text-blue-400">{stat.value}</p>

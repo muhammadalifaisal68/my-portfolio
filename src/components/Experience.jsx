@@ -1,107 +1,117 @@
-import { useState, useEffect, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 
-const defaultExperience = [
+const defaultExperiences = [
   {
-    title: "Software Engineering Intern",
-    company: "Zypher Enterprises",
-    duration: "Ongoing",
-    type: "work",
-    description: "Currently working on real-world IT tasks. Improving skills in communication, technical support, and workflow handling. Gaining exposure to industry tools and professional practices."
+    title: 'International Certifications',
+    company: 'Coursera & Various Platforms',
+    period: '2023 - Present',
+    description: 'Completed multiple professional certifications from top universities and platforms worldwide.',
+    highlights: [
+      'Python Programming',
+      'Data Analysis with Python',
+      'SQL for Data Science',
+      'Cloud Computing Basics',
+      'Microsoft Excel for Business'
+    ],
+    icon: '📚'
   },
   {
-    title: "Software Engineering Intern",
-    company: "Tareenity",
-    duration: "6 Weeks — Completed",
-    type: "work",
-    description: "Gained hands-on experience in basic IT and technical tasks. Learned practical problem-solving and teamwork in a professional environment. Built multiple real-world websites."
+    title: 'Technical Skills',
+    company: 'Self-Learning',
+    period: 'Continuous',
+    description: 'Continuously expanding technical skills through hands-on projects and online resources.',
+    highlights: [
+      'Data Analytics Fundamentals',
+      'IT Support & Troubleshooting',
+      'Problem Solving',
+      'Operating Systems'
+    ],
+    icon: '🎯'
   },
   {
-    title: "F.Sc (Computer Science)",
-    company: "Punjab Group of Colleges",
-    duration: "2023 – 2025 | 847/1200 (70.58%)",
-    type: "education",
-    description: "Studied Computer Science with focus on programming fundamentals, mathematics, and physics."
-  },
-  {
-    title: "Diploma in Information Technology (DIT)",
-    company: "Brains Institute, Peshawar",
-    duration: "2023 – 2024",
-    type: "education",
-    description: "Comprehensive diploma covering IT fundamentals, networking, software development basics, and practical computer skills."
-  },
-  {
-    title: "Matriculation (Science)",
-    company: "Saint Francis High School, Hayatabad",
-    duration: "2013 – 2023 | 875/1100 (79.54%)",
-    type: "education",
-    description: "Completed matriculation with Science subjects. Strong foundation in Mathematics, Physics, and Chemistry."
-  },
+    title: 'Academic Excellence',
+    company: 'Punjab Group of Colleges',
+    period: '2023 - 2025',
+    description: 'F.Sc. in Computer Science with strong foundation in programming and mathematics.',
+    highlights: [
+      'Score: 847/1200 (70.58%)',
+      'Computer Science Focus',
+      'Mathematics & Physics',
+      'Programming Fundamentals'
+    ],
+    icon: '🎓'
+  }
 ]
 
 export default function Experience({ darkMode }) {
-  const [experience, setExperience] = useState(defaultExperience)
-  const [filter, setFilter] = useState('all')
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('experience') || '[]')
-    if (data.length > 0) setExperience(data)
-  }, [])
-
-  const filtered = filter === 'all' ? experience : experience.filter(e => e.type === filter)
-
   return (
-    <section id="experience" className="py-20 px-6 max-w-4xl mx-auto scroll-mt-20" ref={ref}>
-      <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}
-        className="text-center mb-12">
-        <span className="text-blue-400 text-sm font-medium tracking-widest uppercase">My Journey</span>
-        <h2 className={`text-4xl font-bold mt-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Experience & Education</h2>
-      </motion.div>
+    <section id="experience" className={`py-20 ${darkMode ? 'bg-gray-900/50' : 'bg-gray-50'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
+          <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-blue-500 font-semibold text-sm uppercase tracking-wider">
+            My Journey
+          </motion.span>
+          <h2 className="text-3xl sm:text-4xl font-bold mt-2">Experience & Learning</h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-4 rounded-full" />
+        </motion.div>
 
-      <div className="flex gap-3 justify-center mb-8">
-        {[
-          { id: 'all', label: 'All' },
-          { id: 'work', label: 'Work' },
-          { id: 'education', label: 'Education' },
-        ].map(tab => (
-          <motion.button key={tab.id} onClick={() => setFilter(tab.id)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition ${filter === tab.id
-              ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20'
-              : darkMode ? 'bg-gray-800 text-gray-400 hover:bg-gray-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
-            {tab.label}
-          </motion.button>
-        ))}
-      </div>
-
-      <div className="space-y-6 relative">
-        <div className={`absolute left-5 top-0 bottom-0 w-0.5 ${darkMode ? 'bg-gray-800' : 'bg-gray-200'}`} />
-        {filtered.map((exp, i) => (
-          <motion.div key={i} initial={{ opacity: 0, x: -40 }} animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: i * 0.12, duration: 0.5 }} whileHover={{ x: 6 }}
-            className={`${darkMode ? 'bg-gray-900 border-gray-800 hover:border-blue-500' : 'bg-white border-gray-200 hover:border-blue-400'} border rounded-2xl p-6 ml-12 transition-all duration-300 relative shadow-sm`}>
-            <div className={`absolute -left-9 top-6 w-4 h-4 rounded-full border-2 ${exp.type === 'work' ? 'bg-blue-500 border-blue-300' : 'bg-purple-500 border-purple-300'}`} />
-            <div className="flex items-start justify-between gap-4 flex-wrap">
-              <div className="flex items-start gap-4 flex-1">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center mt-1 shrink-0 ${exp.type === 'work' ? 'bg-blue-600/20 text-blue-400' : 'bg-purple-600/20 text-purple-400'}`}>
-                  {exp.type === 'work' ? '💼' : '🎓'}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 flex-wrap mb-1">
-                    <h3 className="text-lg font-bold text-blue-400">{exp.title}</h3>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${exp.type === 'work' ? 'bg-blue-600/20 text-blue-400' : 'bg-purple-600/20 text-purple-400'}`}>
-                      {exp.type === 'work' ? 'Work' : 'Education'}
-                    </span>
-                  </div>
-                  <p className={`font-semibold mb-1 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>{exp.company}</p>
-                  <p className={`text-sm mb-3 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>{exp.duration}</p>
-                  <p className={`text-sm leading-relaxed ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{exp.description}</p>
-                </div>
+        {/* Experience Cards */}
+        <div className="grid md:grid-cols-3 gap-6">
+          {defaultExperiences.map((exp, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+              className={`p-6 rounded-2xl ${darkMode ? 'bg-gray-900' : 'bg-white'} border ${darkMode ? 'border-gray-800' : 'border-gray-200'} hover:shadow-xl transition-all`}
+            >
+              {/* Icon */}
+              <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-4 ${darkMode ? 'bg-gradient-to-br from-blue-500/20 to-purple-500/20' : 'bg-gradient-to-br from-blue-100 to-purple-100'}`}>
+                {exp.icon}
               </div>
-            </div>
-          </motion.div>
-        ))}
+
+              {/* Title & Company */}
+              <h3 className="text-lg font-bold mb-1">{exp.title}</h3>
+              <p className="text-blue-500 text-sm font-medium mb-1">{exp.company}</p>
+              <p className={`text-xs mb-4 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>{exp.period}</p>
+
+              {/* Description */}
+              <p className={`text-sm mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{exp.description}</p>
+
+              {/* Highlights */}
+              <ul className="space-y-2">
+                {exp.highlights.map((highlight, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm">
+                    <svg className={`w-4 h-4 mt-0.5 shrink-0 ${darkMode ? 'text-blue-400' : 'text-blue-500'}`} fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span className={darkMode ? 'text-gray-400' : 'text-gray-600'}>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Resume Download */}
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mt-12">
+          <motion.a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-full shadow-lg shadow-blue-500/25"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Download Full CV
+          </motion.a>
+        </motion.div>
       </div>
     </section>
   )
